@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const Sequelize = require('sequelize')
+const cors = require('cors')
 
 /*
  * Quick rest api prototyping
@@ -26,11 +27,8 @@ const Post = sequelize.define('post', {
 
 sequelize.sync()
 
+app.use(cors())
 app.get('/', (req, res) => {
-    Post.create({
-        title: 'Hey',
-        content: 'test'
-    })
     res.status(200).json({})
 })
 
@@ -38,6 +36,10 @@ app.get('/posts', (req, res) => {
     Post.findAll()
     .then((posts) => {
         res.json(posts)
+    })
+    .catch((err) => {
+        res.status(500).send('Internal server error')
+        console.err(err)
     })
 })
 
