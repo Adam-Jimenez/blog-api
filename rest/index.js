@@ -33,8 +33,13 @@ app.get('/posts/:id', (req, res) => {
 })
 
 app.post('/posts', (req, res) => {
-    console.log(req.body)
-    res.send('debug')
+    db.Post.create({
+        title: req.body.title,
+        content: req.body.content
+    })
+    .then((post) => {
+        res.send(post)
+    })
 })
 
 module.exports = app
