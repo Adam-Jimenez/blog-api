@@ -1,5 +1,8 @@
-const app = require('./rest')
+const src = require('./src')
 
-app.listen(3000, () => {
-    console.log('Blog API listening on port 3000')
+const config = src.config
+const app = src.rest
+
+app.listen(config.port, () => {
+    console.log(`Blog API listening on port ${config.port}`)
 })

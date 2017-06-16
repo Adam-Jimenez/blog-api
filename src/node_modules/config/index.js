@@ -1,0 +1,32 @@
+const _ = require('lodash')
+const devConfig = require('./dev.js')
+const prodConfig = require('./production.js')
+const testConfig = require('./test.js')
+
+if (process.env.NODE_ENV === prodConfig.env) {
+    module.exports = importProductionConfig()
+} else if (process.env.NODE_ENV === devConfig.env) {
+    module.exports = importDevConfig()
+} else if (process.env.NODE_ENV === testConfig.env) {
+    module.exports = importTestConfig()
+} else {
+    throw new Error('Unable to load config: NODE_ENV environnement variable is not set')
+}
+
+function importProductionConfig () {
+    return prodConfig
+}
+
+/*
+ * merges prod config with dev config
+ */
+function importDevConfig () {
+    return _.assign({}, prodConfig, devConfig)
+}
+
+/*
+ * Merges prod config with dev and test config
+ */
+function importTestConfig () {
+    return _.assign({}, prodConfig, devConfig, testConfig)
+}
